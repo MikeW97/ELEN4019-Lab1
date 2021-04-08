@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <stdexcept>
+#include <fstream>
 
 using std::cin;
 using std::cout;
@@ -14,6 +15,8 @@ int main()
     int bounds;
     int dimensions;
     int randNo;
+
+    std::ofstream matrices("matrices.txt");
 
     cout << "Please enter the bounds of the arrays: " << '\n';
     cin >> bounds;
@@ -34,14 +37,32 @@ int main()
             for (int row = 0; row < bounds; row++)
             {
                 randNo = (rand() % 21);
+
+                if (matrices.is_open())
+                {
+                    matrices << randNo << ' ';
+                }
+                else
+                    cout << "Unable to open file \n";
+
                 cout << randNo << ' ';
             }
 
+            if (matrices.is_open())
+            {
+                matrices << '\n';
+            }
             cout << '\n';
         }
 
+        if (matrices.is_open())
+        {
+            matrices << '\n';
+        }
         cout << '\n';
     }
+
+    matrices.close();
 
     return 0;
 }
