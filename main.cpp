@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <iostream>
 #include <vector>
 #include <cstdlib>
@@ -42,9 +43,16 @@ int main()
 
             cout << '\n';
         }
+=======
+#include "matrixGen.h"
 
-        cout << '\n';
-    }
+int main()
+{
+    int bounds = 30;
+    int dimensions = 2;
+>>>>>>> randNoRefactor
+
+    matrixGen(bounds, dimensions);
 
     // 2D Multiplication 
         vector<vector<int>> matrixA
