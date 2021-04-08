@@ -8,27 +8,25 @@ using std::cin;
 using std::cout;
 using std::invalid_argument;
 
+void matrixGen(int bounds, int dimensions);
+
 int main()
+{
+    int bounds = 20;
+    int dimensions = 3;
+
+    matrixGen(bounds, dimensions);
+
+    return 0;
+}
+
+void matrixGen(int bounds, int dimensions)
 {
     srand((unsigned)time(0));
 
-    int bounds;
-    int dimensions;
-    int randNo;
-
     std::ofstream matrices("matrices.txt");
 
-    cout << "Please enter the bounds of the arrays: " << '\n';
-    cin >> bounds;
-
-    if ((bounds % 10 != 0) || bounds > 30)
-        throw invalid_argument("Input must be 10, 20 or 30!");
-
-    cout << "Please enter the dimensions of the arrays: " << '\n';
-    cin >> dimensions;
-
-    if (dimensions != 2 && dimensions != 3)
-        throw invalid_argument("Dimensions must be either 2 or 3!");
+    int randNo;
 
     for (int dim = 0; dim < dimensions; dim++)
     {
@@ -64,5 +62,5 @@ int main()
 
     matrices.close();
 
-    return 0;
+    return;
 }
