@@ -23,25 +23,61 @@ int main()
     rank2TensorPlain();
 
     ///3D Multiplication
-    int sheet = 3;
-    int row = 3;
-    int col = 3;
+
+    bounds = 10;
+    dimensions = 3;
+
+    matrixGen(bounds, dimensions);
+
+    int sheet = bounds;
+    int row = bounds;
+    int col = bounds;
 
     vector<vector<vector<int>>> matA(sheet, vector<vector<int>>(row, vector<int>(col)));
     vector<vector<vector<int>>> matB(sheet, vector<vector<int>>(row, vector<int>(col)));
 
-    // Adding values into matrices
-    for (int i = 0; i < sheet; ++i)
+    ifstream firstMat("matrixA.txt");
+    vector<vector<int>> tempMat;
+    string line;
+    while (getline(firstMat, line))
     {
-        for (int j = 0; j < row; ++j)
+        if (line.size() == 0)
         {
-            for (int k = 0; k < col; ++k)
-            {
-                matA[i][j][k] = i * row * col + j * row + k;
-                matB[i][j][k] = i * row * col + j * row + k;
-            }
+            matA.push_back(tempMat);
+            tempMat.clear();
+        }
+        else
+        {
+            istringstream is(line);
+            tempMat.push_back(
+                vector<int>(istream_iterator<int>(is),
+                            istream_iterator<int>()));
         }
     }
+
+    firstMat.close();
+
+    ifstream secondMat("matrixB.txt");
+    tempMat.clear();
+    while (getline(secondMat, line))
+    {
+        if (line.size() == 0)
+        {
+            matB.push_back(tempMat);
+            tempMat.clear();
+            cout << line << '\n';
+        }
+        else
+        {
+            cout << line << '\n';
+            istringstream is(line);
+            tempMat.push_back(
+                vector<int>(istream_iterator<int>(is),
+                            istream_iterator<int>()));
+        }
+    }
+
+    secondMat.close();
 
     // Check -2 of the 3 indices have to be equal to perform a contraction
 

@@ -72,12 +72,12 @@ void rank2TensorPlain()
     }
 
     // Just checking the results of the multiplication.
-    cout << "Result matrix is \n";
+  /*  cout << "Result matrix is \n";
     for (int i = 0; i < rowC; i++)
     {
         for (int j = 0; j < colC; j++)
             cout << matrixC[i][j] << " ";
         cout << "\n";
-    }
+    } */
     return;
 }
