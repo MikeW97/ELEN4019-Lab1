@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <iterator>
+#include <time.h>
 
 using namespace std;
 
@@ -89,6 +90,10 @@ void rank3TensorPlain(int bounds)
 
     //cout << sheet_B << ' ' << row_B << ' ' << col_B << ' ' << matB.capacity() << '\n';
 
+    clock_t startTime;
+    clock_t endTime;
+    startTime = clock();
+
     //Resultant Vector
     vector<vector<int>> matC(sheet_A, vector<int>(col_B));
 
@@ -115,6 +120,12 @@ void rank3TensorPlain(int bounds)
         //error check
         cout << "ERROR: Incompatible Matrices!" << '\n';
     }
+
+    endTime = clock();
+
+    clock_t runTime;
+    runTime = endTime - startTime;
+    cout << runTime;
 
     return;
 }
