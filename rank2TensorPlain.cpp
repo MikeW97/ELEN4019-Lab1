@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void rank2TensorPlain()
+void rank2TensorPlain(int bounds)
 {
     // Fills the first matrix from the text file
     ifstream firstMat("matrixA.txt");
@@ -48,6 +48,10 @@ void rank2TensorPlain()
     int colC = matrixB[0].size();
     vector<vector<int>> matrixC(rowC, vector<int>(colC));
 
+    clock_t startTime;
+    clock_t endTime;
+    startTime = clock();
+
     if (colA == rowB)
     {
         int i, j, k;
@@ -71,13 +75,23 @@ void rank2TensorPlain()
         //can implement some sort of error once function is set using throw and catch.
     }
 
+    endTime = clock();
+
+    clock_t runTime;
+    runTime = endTime - startTime;
+
+    cout << "2D tensor contraction of matrices with bounds of " << bounds << " started at " << (float)startTime / CLOCKS_PER_SEC << " seconds." << '\n';
+    cout << "2D tensor contraction of matrices with bounds of " << bounds << " ended at " << (float)endTime / CLOCKS_PER_SEC << " seconds." << '\n';
+    cout << "Total process runtime is " << (float)runTime / CLOCKS_PER_SEC << "seconds." << '\n';
+
     // Just checking the results of the multiplication.
-  /*  cout << "Result matrix is \n";
+    /*  cout << "Result matrix is \n";
     for (int i = 0; i < rowC; i++)
     {
         for (int j = 0; j < colC; j++)
             cout << matrixC[i][j] << " ";
         cout << "\n";
     } */
+
     return;
 }

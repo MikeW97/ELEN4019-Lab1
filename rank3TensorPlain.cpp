@@ -33,7 +33,6 @@ void rank3TensorPlain(int bounds)
         else
         {
             matA.push_back(tempMat);
-            cout << "EMPTY LINE" << '\n';
             tempMat.clear();
         }
     }
@@ -61,7 +60,7 @@ void rank3TensorPlain(int bounds)
     secondMat.close();
 
     // CHECKING CONTENTS OF MATRIX A
-   /* for (vector<vector<vector<int>>>::const_iterator i = matA.begin(); i != matA.end(); ++i)
+    /* for (vector<vector<vector<int>>>::const_iterator i = matA.begin(); i != matA.end(); ++i)
     {
         for (vector<vector<int>>::const_iterator j = i->begin(); j != i->end(); ++j)
         {
@@ -125,7 +124,10 @@ void rank3TensorPlain(int bounds)
 
     clock_t runTime;
     runTime = endTime - startTime;
-    cout << runTime;
+
+    cout << "3D tensor contraction of matrices with bounds of " << bounds << " started at " << (float)startTime/CLOCKS_PER_SEC << " seconds." << '\n';
+    cout << "3D tensor contraction of matrices with bounds of " << bounds << " ended at "<< (float)endTime/CLOCKS_PER_SEC << " seconds." << '\n';
+    cout << "Total process runtime is " << (float)runTime/CLOCKS_PER_SEC << "seconds." << '\n';
 
     return;
 }

@@ -20,7 +20,7 @@ int main()
     matrixGen(bounds, dimensions);
 
     // Performs Rank 2 Tensor Contraction without threading
-    rank2TensorPlain();
+    rank2TensorPlain(bounds);
 
     // Generates 3D matrices with specified bounds
     bounds = 10;
