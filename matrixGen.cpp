@@ -46,7 +46,7 @@ void matrixGen(int bounds, int dimensions)
                 cout << "Unable to open file \n";
         }
 
-        if (matrixA.is_open() && sheets < sheetTotal - 1)
+        if (matrixA.is_open() && sheets < sheetTotal)
             matrixA << '\n';
     }
 
@@ -76,7 +76,7 @@ void matrixGen(int bounds, int dimensions)
                 cout << "Unable to open file \n";
         }
 
-        if (matrixB.is_open() && sheets < sheetTotal - 1)
+        if (matrixB.is_open() && sheets < sheetTotal)
             matrixB << '\n';
     }
 
