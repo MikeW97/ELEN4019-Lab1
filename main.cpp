@@ -88,11 +88,6 @@ int main()
         cout << "\n";
     }
 
-    bounds = 30;
-    dimensions = 3;
-
-    matrixGen(bounds, dimensions);
-
     ///3D Multiplication
     int sheet = 3;
     int row = 3;
