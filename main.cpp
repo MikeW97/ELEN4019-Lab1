@@ -25,7 +25,7 @@ int main()
     //  Performs Rank 2 Tensor Contraction with multithreading by OpenMP
     rank2TensorMultOpenMP(bounds);
 
-    matrixGen(bounds, dimensions);
+    // matrixGen(bounds, dimensions);
     // Performs Rank 2 Tensor Contraction with multithreading my PThread
     // rank2TensorMultPThread(bounds);
 

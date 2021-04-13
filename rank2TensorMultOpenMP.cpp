@@ -69,7 +69,7 @@ void rank2TensorMultOpenMP(int bounds)
         int i, j, k;
         int N = colA;
 
-        #pragma omp parallel for private(i, j, k) shared(matrixA, matrixB, matrixC) 
+#pragma omp parallel for private(i, j, k) shared(matrixA, matrixB, matrixC)
         for (i = 0; i < N; i++)
         {
             for (j = 0; j < N; j++)
