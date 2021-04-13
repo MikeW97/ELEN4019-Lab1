@@ -4,7 +4,7 @@
 #include <ctime>
 #include <fstream>
 
-using std::cout;
+using namespace std;
 
 void matrixGen(int bounds, int dimensions)
 {
@@ -23,7 +23,7 @@ void matrixGen(int bounds, int dimensions)
     }
 
     // Creates/opens the first text file
-    std::ofstream matrixA("matrixA.txt");
+    ofstream matrixA("matrixA.txt", ofstream::trunc);
 
     // Fills the text file with numbers
     for (int sheets = 0; sheets < sheetTotal; sheets++)
@@ -53,7 +53,7 @@ void matrixGen(int bounds, int dimensions)
     matrixA.close();
 
     // Creates/opens the second text file
-    std::ofstream matrixB("matrixB.txt");
+    std::ofstream matrixB("matrixB.txt", ofstream::trunc);
 
     // Fills the text file with numbers
     for (int sheets = 0; sheets < sheetTotal; sheets++)

@@ -5,10 +5,12 @@
 #include <iostream>
 #include <sstream>
 #include <iterator>
+#include <omp.h>
+#include <time.h>
 
 using namespace std;
 
-void rank2TensorPlain(int bounds)
+void rank2TensorMultOpenMP(int bounds)
 {
     // Fills the first matrix from the text file
     ifstream firstMat("matrixA.txt");
@@ -54,6 +56,10 @@ void rank2TensorPlain(int bounds)
     int colC = matrixB[0].size();
     vector<vector<int>> matrixC(rowC, vector<int>(colC));
 
+    // Sets up OpenMP parallelisation parameters
+    omp_set_num_threads(omp_get_num_procs());
+
+    // Sets up a timer to track elapsed time of multiplication process
     clock_t startTime;
     clock_t endTime;
     startTime = clock();
@@ -63,6 +69,7 @@ void rank2TensorPlain(int bounds)
         int i, j, k;
         int N = colA;
 
+        #pragma omp parallel for private(i, j, k) shared(matrixA, matrixB, matrixC) 
         for (i = 0; i < N; i++)
         {
             for (j = 0; j < N; j++)
@@ -87,9 +94,12 @@ void rank2TensorPlain(int bounds)
     clock_t runTime;
     runTime = endTime - startTime;
 
-    cout << "2D tensor contraction of matrices with bounds of " << bounds << " started at " << (double)startTime / CLOCKS_PER_SEC << " seconds." << '\n';
-    cout << "2D tensor contraction of matrices with bounds of " << bounds << " ended at " << (double)endTime / CLOCKS_PER_SEC << " seconds." << '\n';
-    cout << "Total process runtime is " << runTime << " clock ticks which is " << (double)runTime / CLOCKS_PER_SEC << "seconds." << '\n';
+    ofstream times("times.log", ofstream::app);
+
+    times << "rank2TensorMultOpenMP: \n Bounds: " << bounds << "\n Start: " << startTime << " clock cycles, " << (double)startTime / CLOCKS_PER_SEC << " seconds." << '\n';
+    times << "End: " << endTime << " clock cycles, " << (double)endTime / CLOCKS_PER_SEC << " seconds." << '\n';
+    times << "Total runtime: " << runTime << " clock cycles, " << (double)runTime / CLOCKS_PER_SEC << "seconds." << '\n'
+          << '\n';
 
     // Just checking the results of the multiplication.
     /*  cout << "Result matrix is \n";

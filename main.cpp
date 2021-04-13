@@ -7,28 +7,39 @@
 #include <iterator>
 
 #include "matrixGen.h"
-#include "rank2TensorPlain.h"
-#include "rank3TensorPlain.h"
+#include "rank2TensorMultOpenMP.h"
+#include "rank2TensorMultPThread.h"
 
 using namespace std;
 
 int main()
-{    
+{
+    // Clears any information in the log file.
+    ofstream times("times.log", ofstream::trunc);
+
     // Generates matrices in seperate text files with specified bounds and dimensions
-    int bounds = 10;
-    int dimensions = 2;
-    matrixGen(bounds, dimensions);
-
-    // Performs Rank 2 Tensor Contraction without threading
-    rank2TensorPlain(bounds);
-
-    // Generates 3D matrices with specified bounds
+    int bounds, dimensions;
     bounds = 10;
-    dimensions = 3;
+    dimensions = 2;
     matrixGen(bounds, dimensions);
+    //  Performs Rank 2 Tensor Contraction with multithreading by OpenMP
+    rank2TensorMultOpenMP(bounds);
 
-    // Performs Rank 3 Tensor Contraction without threading
-    rank3TensorPlain(bounds);
+    matrixGen(bounds, dimensions);
+    // Performs Rank 2 Tensor Contraction with multithreading my PThread
+    // rank2TensorMultPThread(bounds);
+
+    bounds = 20;
+    matrixGen(bounds, dimensions);
+    rank2TensorMultOpenMP(bounds);
+    // matrixGen(bounds, dimensions);
+    // rank2TensorMultPThread(bounds);
+
+    bounds = 30;
+    matrixGen(bounds, dimensions);
+    rank2TensorMultOpenMP(bounds);
+    // matrixGen(bounds, dimensions);
+    // rank2TensorMultPThread(bounds);
 
     return 0;
 }
