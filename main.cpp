@@ -7,9 +7,8 @@
 #include <iterator>
 
 #include "matrixGen.h"
-#include "rank2TensorPlain.h"
-#include "rank3TensorPlain.h"
 #include "rank2TensorMultOpenMP.h"
+#include "rank2TensorMultPThread.h"
 
 using namespace std;
 
@@ -26,13 +25,21 @@ int main()
     //  Performs Rank 2 Tensor Contraction with multithreading by OpenMP
     rank2TensorMultOpenMP(bounds);
 
+    matrixGen(bounds, dimensions);
+    // Performs Rank 2 Tensor Contraction with multithreading my PThread
+    // rank2TensorMultPThread(bounds);
+
     bounds = 20;
     matrixGen(bounds, dimensions);
     rank2TensorMultOpenMP(bounds);
+    // matrixGen(bounds, dimensions);
+    // rank2TensorMultPThread(bounds);
 
     bounds = 30;
     matrixGen(bounds, dimensions);
     rank2TensorMultOpenMP(bounds);
+    // matrixGen(bounds, dimensions);
+    // rank2TensorMultPThread(bounds);
 
     return 0;
 }
