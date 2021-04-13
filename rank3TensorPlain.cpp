@@ -90,24 +90,29 @@ void rank3TensorPlain(int bounds)
     //cout << sheet_B << ' ' << row_B << ' ' << col_B << ' ' << matB.capacity() << '\n';
 
     //Resultant Vector
-    vector<vector<int>> matC(sheet_A, vector<int>(col_B));
+    vector< vector< vector<int> > > matC(sheet, vector< vector<int> >(row, vector<int>(col)));
 
-    // Check if the 2 matrices are compatible
-    if (row_A == row_B && col_A == sheet_B)
-    {
-        //Multiplication route
-        for (int i = 0; i < sheet_A; i++)
+    // For the vectors to be compatible, the number of planes in A should equal to the number of columns in B 
+    if (sheet_A==row_B)
+    {   
+       //Multiplication route 
+        for (int m = 0; m < sheet_A; m++)
         {
-            for (int j = 0; j < col_B; j++)
+            for (int i = 0; i < col_B; i++)
             {
-                for (int k = 0; k < row_A; k++)
+                for (int j = 0; j < row_A; j++)
                 {
-                    for (int l = 0; l < col_A; l++)
+                    for (int k = 0; k < col_A; k++)
                     {
-                        matC[i][j] += matA[i][k][l] * matB[k][l][j];
+                       matC[j][m][i] += matA[k][i][j] * matB[j][k][i];
                     }
+                       
+                                                              
                 }
+
+                
             }
+            
         }
     }
     else
