@@ -6,6 +6,7 @@
 #include <sstream>
 #include <iterator>
 #include <omp.h>
+#include <time.h>
 
 using namespace std;
 
@@ -63,14 +64,12 @@ void rank2TensorMultOpenMP(int bounds)
     clock_t endTime;
     startTime = clock();
 
-    cout << colA << ' ' << rowB << '\n';
-
     if (colA == rowB)
     {
         int i, j, k;
         int N = colA;
 
-#pragma omp parallel for private(i, j, k) shared(matrixA, matrixB, matrixC)
+        #pragma omp parallel for private(i, j, k) shared(matrixA, matrixB, matrixC) 
         for (i = 0; i < N; i++)
         {
             for (j = 0; j < N; j++)
@@ -95,9 +94,12 @@ void rank2TensorMultOpenMP(int bounds)
     clock_t runTime;
     runTime = endTime - startTime;
 
-    cout << "2D tensor contraction of matrices, with multithreading, with bounds of " << bounds << " started at " << (double)startTime / CLOCKS_PER_SEC << " seconds." << '\n';
-    cout << "2D tensor contraction of matrices, with multithreading, with bounds of " << bounds << " ended at " << (double)endTime / CLOCKS_PER_SEC << " seconds." << '\n';
-    cout << "Total process runtime is " << runTime << " clock ticks which is " << (double)runTime / CLOCKS_PER_SEC << "seconds." << '\n';
+    ofstream times("times.log", ofstream::app);
+
+    times << "rank2TensorMultOpenMP: \n Bounds: " << bounds << "\n Start: " << startTime << " clock cycles, " << (double)startTime / CLOCKS_PER_SEC << " seconds." << '\n';
+    times << "End: " << endTime << " clock cycles, " << (double)endTime / CLOCKS_PER_SEC << " seconds." << '\n';
+    times << "Total runtime: " << runTime << " clock cycles, " << (double)runTime / CLOCKS_PER_SEC << "seconds." << '\n'
+          << '\n';
 
     // Just checking the results of the multiplication.
     /*  cout << "Result matrix is \n";

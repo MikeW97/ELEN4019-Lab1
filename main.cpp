@@ -14,26 +14,25 @@
 using namespace std;
 
 int main()
-{    
+{
+    // Clears any information in the log file.
+    ofstream times("times.log", ofstream::trunc);
+
     // Generates matrices in seperate text files with specified bounds and dimensions
-    int bounds = 30;
-    int dimensions = 2;
-    matrixGen(bounds, dimensions);
-
-    // Performs Rank 2 Tensor Contraction without threading
-    rank2TensorPlain(bounds);
-
+    int bounds, dimensions;
+    bounds = 10;
+    dimensions = 2;
     matrixGen(bounds, dimensions);
     //  Performs Rank 2 Tensor Contraction with multithreading by OpenMP
     rank2TensorMultOpenMP(bounds);
 
-    // Generates 3D matrices with specified bounds
-    bounds = 30;
-    dimensions = 3;
+    bounds = 20;
     matrixGen(bounds, dimensions);
+    rank2TensorMultOpenMP(bounds);
 
-    // Performs Rank 3 Tensor Contraction without threading
-    rank3TensorPlain(bounds);
+    bounds = 30;
+    matrixGen(bounds, dimensions);
+    rank2TensorMultOpenMP(bounds);
 
     return 0;
 }
