@@ -40,6 +40,7 @@ Editor used is Visual Studio Code and the set up for the c++ environment can be 
 To compile the project using the integrated terminal, run: 
 
 $ make clean && make && ./main
+$ make clean 
 
 ## Status
 Project is: Completed

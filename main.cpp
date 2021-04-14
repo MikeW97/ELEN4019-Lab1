@@ -21,43 +21,43 @@ int main()
 
     // Generates matrices in seperate text files with specified bounds and dimensions
     int bounds, dimensions;
-    bounds = 10;
-    dimensions = 2;
-    matrixGen(bounds, dimensions);
-    //  Performs Rank 2 Tensor Contraction with multithreading by OpenMP
-    rank2TensorMultOpenMP(bounds);
+    
 
-    // matrixGen(bounds, dimensions);
-    // Performs Rank 2 Tensor Contraction with multithreading my PThread
-    // rank2TensorMultPThread(bounds);
+    //  Performs Rank 2 Tensor Contraction with multithreading by OpenMP and then PThread and 3 different bounds
+    dimensions = 2;
+    
+    bounds = 10;
+    matrixGen(bounds, dimensions); 
+    rank2TensorMultOpenMP(bounds);
+    rank2TensorMultPThread(bounds);
 
     bounds = 20;
     matrixGen(bounds, dimensions);
     rank2TensorMultOpenMP(bounds);
-    // matrixGen(bounds, dimensions);
-    // rank2TensorMultPThread(bounds);
+    rank2TensorMultPThread(bounds);
 
     bounds = 30;
     matrixGen(bounds, dimensions);
     rank2TensorMultOpenMP(bounds);
-    // matrixGen(bounds, dimensions);
     rank2TensorMultPThread(bounds);
     
-
+    //  Performs Rank 3 Tensor Contraction with multithreading by OpenMP and then PThread and 3 different bounds
     dimensions = 3;
+    
     bounds = 10;
     matrixGen(bounds, dimensions);
     rank3TensorMultOpenMP(bounds);
     rank3TensorMultPThread(bounds);
 
-
     bounds = 20;
     matrixGen(bounds, dimensions);
     rank3TensorMultOpenMP(bounds);
+    rank3TensorMultPThread(bounds);
 
     bounds = 30;
     matrixGen(bounds, dimensions);
     rank3TensorMultOpenMP(bounds);
+    rank3TensorMultPThread(bounds);
 
     return 0;
 }

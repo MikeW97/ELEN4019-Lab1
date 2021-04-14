@@ -60,35 +60,17 @@ void rank3TensorMultOpenMP(int bounds)
 
     secondMat.close();
 
-    // CHECKING CONTENTS OF MATRIX A
-    /* for (vector<vector<vector<int>>>::const_iterator i = matA.begin(); i != matA.end(); ++i)
-    {
-        for (vector<vector<int>>::const_iterator j = i->begin(); j != i->end(); ++j)
-        {
-            for (vector<int>::const_iterator k = j->begin(); k != j->end(); ++k)
-            {
-                cout << *k << ' ';
-            }
-            cout << '\n';
-        }
-        cout << '\n';
-    } */
-
-    // Check -2 of the 3 indices have to be equal to perform a contraction
 
     //Dimensions A
     int sheet_A = matA.size();
     int row_A = matA[0].size();
     int col_A = matA[0][0].size();
 
-    //cout << sheet_A << ' ' << row_A << ' ' << col_A << ' ' << matA.capacity() << '\n';
-
     //Dimensions B
     int sheet_B = matB.size();
     int row_B = matB[0].size();
     int col_B = matB[0][0].size();
 
-    //cout << sheet_B << ' ' << row_B << ' ' << col_B << ' ' << matB.capacity() << '\n';
 
     clock_t startTime;
     clock_t endTime;

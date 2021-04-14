@@ -31,8 +31,6 @@ void *multiplyThread(void *threadarg)
     auto matrixA = my_data->matrixA;
     auto matrixB = my_data->matrixB;
 
-    cout << "This 2d is thread: " << i << '\n';
-
     pthread_mutex_lock(&myMutex);
 
     int M = (2 * i + (N / 5));
@@ -43,7 +41,6 @@ void *multiplyThread(void *threadarg)
             my_data->matrixC[i][j] = 0;
             for (int k = 0; k < N; k++)
             {
-                // cout << "Loop "<< i << " i of "<< M << " "<< j << " j of "<< N << " " << k << " k of "<< N << '\n';
                 my_data->matrixC[i][j] += matrixA[i][k] * matrixB[k][j];
             }
         }
@@ -107,17 +104,15 @@ void rank2TensorMultPThread(int bounds)
     struct thread_data data[5];
     int rc;
 
-    // cout << "Here is test 1" << '\n';
     pthread_mutex_init(&myMutex, 0);
 
     int counter = 0;
 
     if (colA == rowB)
     {
-        // cout << "Here is test 2" << '\n';
+
         for (int i = 0; i < 5; i++)
         {
-            // cout << "This should be thread " << i << '\n';
 
             data[i].bounds = bounds;
             data[i].iteration = i;
@@ -125,16 +120,14 @@ void rank2TensorMultPThread(int bounds)
             data[i].matrixB = matrixB;
             data[i].matrixC = matrixC;
 
-            // cout << i << " iteration "<<data[i].iteration<<" "<< '\n';
             rc = pthread_create(&threads[i], NULL, multiplyThread, (void *)&data[i]);
-            // rc = pthread_create(&threads[i], NULL, multiplyThread, NULL);
             counter++;
         }
     }
     else
     {
         cout << "ERROR IN RANK 2 TENSOR CONTRACTION \n";
-        //can implement some sort of error once function is set using throw and catch.
+        
     }
     
     endTime = clock();
@@ -149,22 +142,13 @@ void rank2TensorMultPThread(int bounds)
     times << "Total runtime: " << runTime << " clock cycles, " << (double)runTime / CLOCKS_PER_SEC << "seconds." << '\n'
           << '\n';
 
-    // Just checking the results of the multiplication.
-    /*  cout << "Result matrix is \n";
-    for (int i = 0; i < rowC; i++)
-    {
-        for (int j = 0; j < colC; j++)
-            cout << matrixC[i][j] << " ";
-        cout << "\n";
-    } */
-    // cout << "Here is test .. counter "<< counter << '\n';
+
     for(int i = 0; i < counter; i++) {
         pthread_join(threads[i], NULL);
     }
 
-    // cout << "Here is test 4" << '\n';
 
     pthread_mutex_destroy(&myMutex);
-    // cout << "Here is test 5" << '\n';
+
     return;
 }

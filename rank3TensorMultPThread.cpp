@@ -29,21 +29,19 @@ void *multiplyThread_3d(void *threadarg)
     int i = my_data->iteration;
     auto matA = my_data->matrixA;
     auto matB = my_data->matrixB;
-    // auto matC = my_data->matrixC;
+
 
     //Dimensions A
     int sheet_A = matA.size();
     int row_A = matA[0].size();
     int col_A = matA[0][0].size();
 
-    //cout << sheet_A << ' ' << row_A << ' ' << col_A << ' ' << matA.capacity() << '\n';
+
 
     //Dimensions B
     int sheet_B = matB.size();
     int row_B = matB[0].size();
     int col_B = matB[0][0].size();
-
-    cout << "This is 3d thread: " << i << '\n';
 
     pthread_mutex_lock(&myMutex_3d);
 
@@ -116,35 +114,18 @@ void rank3TensorMultPThread(int bounds)
 
     secondMat.close();
 
-    // CHECKING CONTENTS OF MATRIX A
-    /* for (vector<vector<vector<int>>>::const_iterator i = matA.begin(); i != matA.end(); ++i)
-    {
-        for (vector<vector<int>>::const_iterator j = i->begin(); j != i->end(); ++j)
-        {
-            for (vector<int>::const_iterator k = j->begin(); k != j->end(); ++k)
-            {
-                cout << *k << ' ';
-            }
-            cout << '\n';
-        }
-        cout << '\n';
-    } */
-
-    // Check -2 of the 3 indices have to be equal to perform a contraction
 
     //Dimensions A
     int sheet_A = matA.size();
     int row_A = matA[0].size();
     int col_A = matA[0][0].size();
 
-    //cout << sheet_A << ' ' << row_A << ' ' << col_A << ' ' << matA.capacity() << '\n';
 
     //Dimensions B
     int sheet_B = matB.size();
     int row_B = matB[0].size();
     int col_B = matB[0][0].size();
 
-    //cout << sheet_B << ' ' << row_B << ' ' << col_B << ' ' << matB.capacity() << '\n';
 
     clock_t startTime;
     clock_t endTime;
@@ -158,13 +139,14 @@ void rank3TensorMultPThread(int bounds)
     vector<vector<vector<int>>> matC(sheet, vector<vector<int>>(row, vector<int>(col)));
 
     int counter = 0;
+
     // For the vectors to be compatible, the number of planes in A should equal to the number of columns in B
     if (sheet_A == row_B)
     {
-                // cout << "Here is test 2" << '\n';
+                
         for (int i = 0; i < 5; i++)
         {
-            // cout << "This should be thread " << i << '\n';
+            
 
             data[i].bounds = bounds;
             data[i].iteration = i;
@@ -172,9 +154,9 @@ void rank3TensorMultPThread(int bounds)
             data[i].matrixB = matB;
             data[i].matrixC = matC;
 
-            // cout << i << " iteration "<<data[i].iteration<<" "<< '\n';
+            
             rc = pthread_create(&threads[i], NULL, multiplyThread_3d, (void *)&data[i]);
-            // rc = pthread_create(&threads[i], NULL, multiplyThread, NULL);
+            
             counter++;
         }
     } 
@@ -189,9 +171,11 @@ void rank3TensorMultPThread(int bounds)
     clock_t runTime;
     runTime = endTime - startTime;
 
-    // cout << "3D tensor contraction of matrices with bounds of " << bounds << " started at " << (float)startTime / CLOCKS_PER_SEC << " seconds." << '\n';
-    // cout << "3D tensor contraction of matrices with bounds of " << bounds << " ended at " << (float)endTime / CLOCKS_PER_SEC << " seconds." << '\n';
-    // cout << "Total process runtime is " << (float)runTime / CLOCKS_PER_SEC << "seconds." << '\n';
+     ofstream times("times.log", ofstream::app);
+
+     times << "3D tensor contraction of matrices with bounds of " << bounds << " started at " << (float)startTime / CLOCKS_PER_SEC << " seconds." << '\n';
+     times << "3D tensor contraction of matrices with bounds of " << bounds << " ended at " << (float)endTime / CLOCKS_PER_SEC << " seconds." << '\n';
+     times << "Total process runtime is " << (float)runTime / CLOCKS_PER_SEC << "seconds." << '\n';
 
     for(int i = 0; i < counter; i++) {
         pthread_join(threads[i], NULL);

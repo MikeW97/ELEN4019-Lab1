@@ -86,7 +86,6 @@ void rank2TensorMultOpenMP(int bounds)
     else
     {
         cout << "ERROR IN RANK 2 TENSOR CONTRACTION \n";
-        //can implement some sort of error once function is set using throw and catch.
     }
 
     endTime = clock();
@@ -100,15 +99,6 @@ void rank2TensorMultOpenMP(int bounds)
     times << "End: " << endTime << " clock cycles, " << (double)endTime / CLOCKS_PER_SEC << " seconds." << '\n';
     times << "Total runtime: " << runTime << " clock cycles, " << (double)runTime / CLOCKS_PER_SEC << "seconds." << '\n'
           << '\n';
-
-    // Just checking the results of the multiplication.
-    /*  cout << "Result matrix is \n";
-    for (int i = 0; i < rowC; i++)
-    {
-        for (int j = 0; j < colC; j++)
-            cout << matrixC[i][j] << " ";
-        cout << "\n";
-    } */
 
     return;
 }
