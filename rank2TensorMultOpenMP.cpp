@@ -57,7 +57,7 @@ void rank2TensorMultOpenMP(int bounds)
     vector<vector<int>> matrixC(rowC, vector<int>(colC));
 
     // Sets up OpenMP parallelisation parameters
-    omp_set_num_threads(omp_get_num_procs());
+    omp_set_num_threads(5);
 
     // Sets up a timer to track elapsed time of multiplication process
     clock_t startTime;

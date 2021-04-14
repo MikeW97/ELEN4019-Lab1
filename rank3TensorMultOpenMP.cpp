@@ -1,4 +1,4 @@
-#include "rank3TensorPlain.h"
+#include "rank3TensorMultOpenMP.h"
 
 #include <vector>
 #include <fstream>
@@ -6,10 +6,11 @@
 #include <sstream>
 #include <iterator>
 #include <time.h>
+#include <omp.h>
 
 using namespace std;
 
-void rank3TensorPlain(int bounds)
+void rank3TensorMultOpenMP(int bounds)
 {
     int sheet = bounds;
     int row = bounds;
@@ -96,17 +97,23 @@ void rank3TensorPlain(int bounds)
     //Resultant Vector
     vector<vector<vector<int>>> matC(sheet, vector<vector<int>>(row, vector<int>(col)));
 
+    // Sets up OpenMP parallelisation parameters
+    omp_set_num_threads(5);
+
     // For the vectors to be compatible, the number of planes in A should equal to the number of columns in B
     if (sheet_A == row_B)
     {
+        int m, i, j, k;
+
         //Multiplication route
-        for (int m = 0; m < sheet_A; m++)
+        #pragma omp parallel for private(m, i, j, k) shared(matA, matB, matC)
+        for (m = 0; m < sheet_A; m++)
         {
-            for (int i = 0; i < col_B; i++)
+            for (i = 0; i < col_B; i++)
             {
-                for (int j = 0; j < row_A; j++)
+                for (j = 0; j < row_A; j++)
                 {
-                    for (int k = 0; k < col_A; k++)
+                    for (k = 0; k < col_A; k++)
                     {
                         matC[j][m][i] += matA[k][i][j] * matB[j][k][i];
                     }
@@ -125,9 +132,12 @@ void rank3TensorPlain(int bounds)
     clock_t runTime;
     runTime = endTime - startTime;
 
-    cout << "3D tensor contraction of matrices with bounds of " << bounds << " started at " << (float)startTime / CLOCKS_PER_SEC << " seconds." << '\n';
-    cout << "3D tensor contraction of matrices with bounds of " << bounds << " ended at " << (float)endTime / CLOCKS_PER_SEC << " seconds." << '\n';
-    cout << "Total process runtime is " << (float)runTime / CLOCKS_PER_SEC << "seconds." << '\n';
+    ofstream times("times.log", ofstream::app);
+
+    times << "rank3TensorMultOpenMP: \n Bounds: " << bounds << "\n Start: " << startTime << " clock cycles, " << (double)startTime / CLOCKS_PER_SEC << " seconds." << '\n';
+    times << "End: " << endTime << " clock cycles, " << (double)endTime / CLOCKS_PER_SEC << " seconds." << '\n';
+    times << "Total runtime: " << runTime << " clock cycles, " << (double)runTime / CLOCKS_PER_SEC << "seconds." << '\n'
+          << '\n';
 
     return;
 }
