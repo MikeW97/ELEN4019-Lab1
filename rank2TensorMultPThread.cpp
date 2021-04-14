@@ -10,19 +10,21 @@
 
 using namespace std;
 
+const int NUM_THREADS = 5;
+pthread_mutex_t myMutex;
+vector<vector<int>> matrixC; // A shared variable
+
 struct thread_data
 {
     vector<vector<int>> matrixA;
     vector<vector<int>> matrixB;
-    vector<vector<int>> matrixC;
     int bounds;
     int iteration;
 };
 
-pthread_mutex_t myMutex;
-
 void *multiplyThread(void *threadarg)
 {
+
     struct thread_data *my_data;
     my_data = (struct thread_data *)threadarg;
 
@@ -33,24 +35,27 @@ void *multiplyThread(void *threadarg)
 
     pthread_mutex_lock(&myMutex);
 
-    for (2 * i; i < (2 * i + (N / 5)); i++)
+    for (2 * i; i < (2 * i + (N / NUM_THREADS)); i++)
     {
         for (int j = 0; j < N; j++)
         {
-            my_data->matrixC[i][j] = 0;
+            //pthread_mutex_lock(&myMutex);
+            matrixC[i][j] = 0;
+            //pthread_mutex_unlock(&myMutex);
 
             for (int k = 0; k < N; k++)
             {
-                my_data->matrixC[i][j] += matrixA[i][k] * matrixB[k][j];
+                //pthread_mutex_lock(&myMutex);
+                matrixC[i][j] += matrixA[i][k] * matrixB[k][j];
+                //pthread_mutex_unlock(&myMutex);
             }
         }
     }
 
+    // cout << "This is thread: " << threadarg << '\n';
     pthread_mutex_unlock(&myMutex);
 
-    cout << "This is thread: " << threadarg << '\n';
-
-    pthread_exit(NULL);
+    //pthread_exit(NULL);
 }
 
 void rank2TensorMultPThread(int bounds)
@@ -104,33 +109,43 @@ void rank2TensorMultPThread(int bounds)
     clock_t endTime;
     startTime = clock();
 
-    pthread_t threads[5];
-    struct thread_data data[5];
-    int rc;
+    pthread_t threads[NUM_THREADS];
+    struct thread_data data[NUM_THREADS];
+    // pthread_attr_t attr;
+    // pthread_attr_init(&attr);
+    // pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
     cout << "Here is test 1" << '\n';
-    pthread_mutex_init(&myMutex, 0);
+    // pthread_mutex_init(&myMutex, NULL);
+    void *status;
 
     if (colA == rowB)
     {
         cout << "Here is test 2" << '\n';
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < NUM_THREADS; i++)
         {
+            //pthread_mutex_lock(&myMutex);
             cout << "This should be thread " << i << '\n';
 
             data[i].bounds = bounds;
             data[i].iteration = i;
             data[i].matrixA = matrixA;
             data[i].matrixB = matrixB;
-            data[i].matrixC = matrixC;
 
-            rc = pthread_create(&threads[i], NULL, multiplyThread, (void *)&data[i]);
+            pthread_create(&threads[i], NULL, multiplyThread, (void *)&data[i]);
+            //pthread_mutex_unlock(&myMutex);
         }
     }
     else
     {
         cout << "ERROR IN RANK 2 TENSOR CONTRACTION \n";
         //can implement some sort of error once function is set using throw and catch.
+    }
+
+    //pthread_attr_destroy(&attr);
+    for (int i = 0; i < NUM_THREADS; i++)
+    {
+        pthread_join(threads[i], &status);
     }
 
     endTime = clock();
@@ -146,21 +161,16 @@ void rank2TensorMultPThread(int bounds)
           << '\n';
 
     // Just checking the results of the multiplication.
-    /*  cout << "Result matrix is \n";
+    /*cout << "Result matrix is \n";
     for (int i = 0; i < rowC; i++)
     {
         for (int j = 0; j < colC; j++)
             cout << matrixC[i][j] << " ";
         cout << "\n";
-    } */
+    }*/
 
-    pthread_join(threads[0], NULL);
-    pthread_join(threads[1], NULL);
-    pthread_join(threads[2], NULL);
-    pthread_join(threads[3], NULL);
-    pthread_join(threads[4], NULL);
-
-    pthread_mutex_destroy(&myMutex);
+    // pthread_mutex_destroy(&myMutex);
+    pthread_exit(NULL);
 
     return;
 }
