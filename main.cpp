@@ -10,6 +10,7 @@
 #include "rank2TensorMultOpenMP.h"
 #include "rank2TensorMultPThread.h"
 #include "rank3TensorMultOpenMP.h"
+#include "rank3TensorMultPThread.h"
 
 using namespace std;
 
@@ -40,12 +41,15 @@ int main()
     matrixGen(bounds, dimensions);
     rank2TensorMultOpenMP(bounds);
     // matrixGen(bounds, dimensions);
-    // rank2TensorMultPThread(bounds);
+    rank2TensorMultPThread(bounds);
+    
 
     dimensions = 3;
     bounds = 10;
     matrixGen(bounds, dimensions);
     rank3TensorMultOpenMP(bounds);
+    rank3TensorMultPThread(bounds);
+
 
     bounds = 20;
     matrixGen(bounds, dimensions);

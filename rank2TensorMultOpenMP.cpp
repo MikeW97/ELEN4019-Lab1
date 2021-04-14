@@ -1,4 +1,4 @@
-#include "rank2TensorPlain.h"
+#include "rank2TensorMultOpenMP.h"
 
 #include <vector>
 #include <fstream>
